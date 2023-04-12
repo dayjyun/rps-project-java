@@ -6,22 +6,48 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Main {
-    public void playGame(){
-        System.out.println("Executes the game");
+    private String rock = "rock";
+    private String paper = "paper";
+    private String scissors = "scissors";
+    private char r = 'r';
+    private char p = 'p';
+    private char s = 's';
+
+    public static void menu(){
+//        System.out.println("Executes the game");
         Scanner input = new Scanner(System.in);
+        System.out.println("""
+                Welcome
+                What would you like to do?
+                	Play Game - Play (P)
+                	Game History - History (H)
+                	Quit (Q)""");
+        String userInput = input.nextLine();
+
+        if (userInput.equalsIgnoreCase("play") || userInput.equalsIgnoreCase("p")) {
+            // play game
+        } else if (userInput.equalsIgnoreCase("history") || userInput.equalsIgnoreCase("h")) {
+            // show history
+        } else if (userInput.equalsIgnoreCase("quit") || userInput.equalsIgnoreCase("q")) {
+            // quit game
+            System.out.println("Goodbye");
+            input.close();
+        }
     }
 
-    public void history(){
+    public static void history(){
         System.out.println("Shows history");
     }
 
-    public void quit(){
+    public static void quit(){
         System.out.println("Quits the game");
     }
 
     public static void main(String[] args) {
         Player playerOne = new Player("Player One");
         Player playerTwo = new Player("Player Two");
+
+        menu();
     }
 
     public static void writeFile(String name) {
@@ -34,4 +60,9 @@ public class Main {
             System.out.println(e);
         }
     }
+
+//    @Override
+//    public String toString() {
+//        return "RETURN";
+//    }
 }
