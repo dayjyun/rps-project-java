@@ -17,11 +17,11 @@ public class Main {
 //        System.out.println("Executes the game");
         Scanner input = new Scanner(System.in);
         System.out.println("""
-                Welcome
-                What would you like to do?
-                	Play Game - Play (P)
-                	Game History - History (H)
-                	Quit (Q)""");
+                Welcome to Rock Paper Scissors
+                    What would you like to do?
+                        Play (P)
+                        History (H)
+                        Quit (Q)""");
         String userInput = input.nextLine();
 
         if (userInput.equalsIgnoreCase("play") || userInput.equalsIgnoreCase("p")) {
@@ -35,8 +35,14 @@ public class Main {
         }
     }
 
+    public static void playGame() {
+        System.out.println("Play game");
+        // sends game data to a gameList
+    }
+
     public static void history(){
         System.out.println("Shows history");
+        // reads data from gameList
     }
 
     public static void quit(){
