@@ -1,12 +1,10 @@
 public class Player {
     private String name;
     private int points;
-    Player cpu;
 
     public Player(String name, int points) {
         this.name = name;
         this.points = points;
-        this.cpu = cpu;
     }
 
     public String getName() {
@@ -27,9 +25,6 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Player{" +
-                "name='" + name + '\'' +
-                ", points=" + points +
-                '}';
+        return "Player{" + "name='" + name + '\'' + ", points=" + points + '}';
     }
 }
