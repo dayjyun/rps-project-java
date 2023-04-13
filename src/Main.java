@@ -40,6 +40,7 @@ public class Main {
         if (userInput.equals("1")) {
             playGame(playerOne, new Computer("CPU", 0), ties, playerOneInput);
         } else {
+            Player playerTwo = new Player("Player Two", 0);
             Scanner playerTwoInput = new Scanner(System.in);
             String name = "Player Two";
             System.out.println("""
@@ -47,13 +48,15 @@ public class Main {
                     Yes (Y)
                     No (N)""");
             String playerTwoChoice = playerTwoInput.nextLine();
+
             if(playerTwoChoice.equalsIgnoreCase("Yes") || playerTwoChoice.equalsIgnoreCase("Y")){
                 System.out.println("Enter Player Two's name: ");
                 name = playerTwoInput.nextLine();
                 name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
-                playGame(playerOne, new Player(name, 0), ties, playerOneInput);
+                playerTwo.setName(name);
+                playGame(playerOne, playerTwo, ties, playerOneInput);
             } else if (playerTwoChoice.equalsIgnoreCase("No") || playerTwoChoice.equalsIgnoreCase("N")) {
-                playGame(playerOne, new Player(name, 0), ties, playerOneInput);
+                playGame(playerOne, playerTwo, ties, playerOneInput);
             } else {
                 System.out.println("Invalid input");
             }
