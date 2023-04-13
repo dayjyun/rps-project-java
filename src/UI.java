@@ -45,7 +45,6 @@ public class UI {
                 + '\n' + "Menu (M)"
                 + '\n' + "Quit (Q)"
                 + '\n');
-
     }
 
     public static void quitGameText(Player playerOne, Player playerTwo, int ties) {
@@ -57,5 +56,4 @@ public class UI {
                 "Goodbye :)"
         );
     }
-
 }
