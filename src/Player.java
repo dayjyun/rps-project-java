@@ -15,8 +15,8 @@ public class Player {
         return points;
     }
 
-    public void setPoints(int points) {
-        this.points = points;
+    public void setPoints() {
+        this.points += 1;
     }
 
     public void setName(String newName) {

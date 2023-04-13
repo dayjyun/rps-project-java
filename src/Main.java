@@ -29,7 +29,7 @@ public class Main {
     }
 
     public static void changePlayerName(){
-        Scanner input = new Scanner(System.in);v
+        Scanner input = new Scanner(System.in);
         System.out.println("""
                 1. Player One
                 2. Player Two
@@ -39,7 +39,7 @@ public class Main {
 
         String menuChoice = input.nextLine();
         if(menuChoice.equals("1")) {
-            playerOne.setName();
+//            playerOne.setName();
         }
     }
 
@@ -56,7 +56,7 @@ public class Main {
 
         if (userInput.equals("1")) {
             playGame(playerOne, new Computer("CPU", 0), ties, playerOneInput);
-        } else {
+        } else if(userInput.equals("2")) {
             Scanner playerTwoInput = new Scanner(System.in);
             String name = "Player Two";
             System.out.println("""
@@ -77,7 +77,10 @@ public class Main {
                 System.out.println("Invalid input");
             }
 
-            // If 3, changePlayerName()
+        } else if(userInput.equals("3")) {
+            changePlayerName();
+        } else {
+            System.out.println("Invalid input");
         }
     }
 
@@ -102,7 +105,7 @@ public class Main {
                 (Arrays.asList(correctInput).contains(playerTwoMove) || Arrays.asList(correctInputLong).contains(playerTwoMove))) {
             if ((playerOneMove.equalsIgnoreCase("r") || playerOneMove.equalsIgnoreCase("rock")) && playerTwoMove.equals("s")) {
                 System.out.println(playerOne.getName() + " picked ROCK" + '\n' + playerTwo.getName() + " picked SCISSORS" + '\n' + playerOne.getName() + " Wins!");
-//                player1wins++;
+                playerOne.setPoints();
                 playGame(playerOne, playerTwo, ties, playerOneInput);
             } else if ((playerOneMove.equalsIgnoreCase("r") || playerOneMove.equalsIgnoreCase("rock")) && playerTwoMove.equals("p")) {
                 System.out.println("""
@@ -110,11 +113,11 @@ public class Main {
                         Player Two picked PAPER
                         Player Two Wins!
                         """);
-//                player2wins++;
+                playerTwo.setPoints();
                 playGame(playerOne, playerTwo, ties, playerOneInput);
             } else if ((playerOneMove.equalsIgnoreCase("p") || playerOneMove.equalsIgnoreCase("paper")) && playerTwoMove.equals("r")) {
                 System.out.println(playerOne.getName() + " picked ROCK" + '\n' + playerTwo.getName() + " picked SCISSORS" + '\n' + playerTwo.getName() + " Wins!");
-//                player1wins++;
+                playerOne.setPoints();
                 playGame(playerOne, playerTwo, ties, playerOneInput);
             } else if ((playerOneMove.equalsIgnoreCase("p") || playerOneMove.equalsIgnoreCase("paper")) && playerTwoMove.equals("s")) {
                 System.out.println("""
@@ -122,7 +125,7 @@ public class Main {
                         Player Two picked SCISSORS
                         Player Two Wins!
                         """);
-//                player2wins++;
+                playerTwo.setPoints();
                 playGame(playerOne, playerTwo, ties, playerOneInput);
             } else if ((playerOneMove.equalsIgnoreCase("s") || playerOneMove.equalsIgnoreCase("scissors")) && playerTwoMove.equals("p")) {
                 System.out.println("""
@@ -145,7 +148,7 @@ public class Main {
                 ties++;
                 playGame(playerOne, playerTwo, ties, playerOneInput);
             }
-
+// TODO ADD move info
         } else if (playerOneMove.equalsIgnoreCase("q") || playerOneMove.equalsIgnoreCase("quit")) {
             System.out.println('\n' + "***Results***" + '\n' + "Player One: " + playerOne.getPoints() + '\n' + "Player Two: " + playerTwo.getPoints() + '\n' + "Ties: " + ties + '\n');
             System.out.println("Goodbye :)");
