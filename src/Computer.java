@@ -10,5 +10,4 @@ public class Computer extends Player {
         int randomIndex = new Random().nextInt(correctInput.length);
         return correctInput[randomIndex];
     }
-
 }
