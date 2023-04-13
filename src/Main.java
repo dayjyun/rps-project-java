@@ -32,9 +32,10 @@ public class Main {
         Player playerOne = new Player("Player One", 0);
         int ties = 0;
 
-        System.out.println("***Choose players***");
+        System.out.println("*** Choose players ***");
         System.out.println("1. Single player");
         System.out.println("2. Two Players");
+        System.out.println("3. Change Player Names");
         String userInput = playerOneInput.nextLine();
 
         if (userInput.equals("1")) {
@@ -49,7 +50,7 @@ public class Main {
                     No (N)""");
             String playerTwoChoice = playerTwoInput.nextLine();
 
-            if(playerTwoChoice.equalsIgnoreCase("Yes") || playerTwoChoice.equalsIgnoreCase("Y")){
+            if (playerTwoChoice.equalsIgnoreCase("Yes") || playerTwoChoice.equalsIgnoreCase("Y")) {
                 System.out.println("Enter Player Two's name: ");
                 name = playerTwoInput.nextLine();
                 name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
@@ -68,17 +69,8 @@ public class Main {
         String[] correctInputLong = {"rock", "scissors", "paper"};
         Scanner playerTwoInput = new Scanner(System.in);
 
-        System.out.println("""
-                                
-                GAME
-                =====
-                Choose your move
-                    Rock (R)
-                    Paper (P)
-                    Scissors (S)
-                    
-                    Menu (M)
-                    Quit (Q)""");
+        System.out.println('\n' + "!!*** " + playerOne.getName() + " vs " + playerTwo.getName() + " ***!!" + '\n'  + '\n' + "Game" + '\n' + "=====" + '\n' + "Choose your move" + '\n' +
+                "Rock (R)" + '\n' + "Paper (P)" + '\n' + "Scissors (S)" + '\n' + '\n' + "Menu (M)" + '\n' + "Quit (Q)");
 
         String playerOneMove = playerOneInput.nextLine().toLowerCase();
         String playerTwoMove;
@@ -89,14 +81,10 @@ public class Main {
             playerTwoMove = playerTwoInput.nextLine().toLowerCase();
         }
 
-        if ((Arrays.asList(correctInput).contains(playerOneMove) || Arrays.asList(correctInputLong).contains(playerOneMove)) && (Arrays.asList(correctInput).contains(playerTwoMove) || Arrays.asList(correctInputLong).contains(playerTwoMove))) {
+        if ((Arrays.asList(correctInput).contains(playerOneMove) || Arrays.asList(correctInputLong).contains(playerOneMove)) ||
+                (Arrays.asList(correctInput).contains(playerTwoMove) || Arrays.asList(correctInputLong).contains(playerTwoMove))) {
             if ((playerOneMove.equalsIgnoreCase("r") || playerOneMove.equalsIgnoreCase("rock")) && playerTwoMove.equals("s")) {
                 System.out.println(playerOne.getName() + " picked ROCK" + '\n' + playerTwo.getName() + " picked SCISSORS" + '\n' + playerOne.getName() + " Wins!");
-//                System.out.println("""
-//                        Player One picked ROCK
-//                        Player Two picked SCISSORS
-//                        Player One Wins!
-//                        """);
 //                player1wins++;
                 playGame(playerOne, playerTwo, ties, playerOneInput);
             } else if ((playerOneMove.equalsIgnoreCase("r") || playerOneMove.equalsIgnoreCase("rock")) && playerTwoMove.equals("p")) {
@@ -109,11 +97,6 @@ public class Main {
                 playGame(playerOne, playerTwo, ties, playerOneInput);
             } else if ((playerOneMove.equalsIgnoreCase("p") || playerOneMove.equalsIgnoreCase("paper")) && playerTwoMove.equals("r")) {
                 System.out.println(playerOne.getName() + " picked ROCK" + '\n' + playerTwo.getName() + " picked SCISSORS" + '\n' + playerTwo.getName() + " Wins!");
-//                System.out.println("""
-//                        Player One picked PAPER
-//                        Player Two picked ROCK
-//                        Player One Wins!
-//                        """);
 //                player1wins++;
                 playGame(playerOne, playerTwo, ties, playerOneInput);
             } else if ((playerOneMove.equalsIgnoreCase("p") || playerOneMove.equalsIgnoreCase("paper")) && playerTwoMove.equals("s")) {
@@ -145,11 +128,11 @@ public class Main {
                 ties++;
                 playGame(playerOne, playerTwo, ties, playerOneInput);
             }
+
         } else if (playerOneMove.equalsIgnoreCase("q") || playerOneMove.equalsIgnoreCase("quit")) {
             System.out.println('\n' + "***Results***" + '\n' + "Player One: " + playerOne.getPoints() + '\n' + "Player Two: " + playerTwo.getPoints() + '\n' + "Ties: " + ties + '\n');
             System.out.println("Goodbye :)");
             playerOneInput.close();
-            playerTwoInput.close();
 
         } else if ((playerOneMove.equalsIgnoreCase("m") || playerOneMove.equalsIgnoreCase("menu")) || (playerTwoMove.equalsIgnoreCase("m") || playerTwoMove.equalsIgnoreCase(
                 "menu"))) {
@@ -180,19 +163,12 @@ public class Main {
         menu();
     }
 
-    // ReadFile to read history.
+    // ReadFile to read history.txt
     public static void readFile(String fileName) throws IOException {
-        // fileName is a String input
-        // Path converts it to a machine-readable path.
-        Path pathToFile = Paths.get(fileName); // return absolute path of file location
-
-        // BufferReader helps us read the file
+        Path pathToFile = Paths.get(fileName);
         BufferedReader reader;
         try {
-            // Reads the file content with the given URI (meaning the local path to the file)
             reader = new BufferedReader(new FileReader(Paths.get(pathToFile.toUri()).toFile()));
-
-            // Read one line at a time from the BufferReader
             String currentLine = reader.readLine();
 
             while (currentLine != null) { // check until the end of file
@@ -203,7 +179,7 @@ public class Main {
 //                superHero.setPlaceOfBirth(data[2]);
 
 //                superHeroList.add(superHero);
-                currentLine = reader.readLine(); // read the next line. This is the incrementor
+                currentLine = reader.readLine();
             }
         } catch (IOException e) {
             System.out.println(e);
