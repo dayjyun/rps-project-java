@@ -1,6 +1,4 @@
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.nio.file.Path;
@@ -34,20 +32,35 @@ public class Main {
         Player playerOne = new Player("Player One", 0);
         int ties = 0;
 
-        System.out.println("Choose your player");
+        System.out.println("***Choose players***");
         System.out.println("1. Single player");
         System.out.println("2. Two Players");
         String userInput = playerOneInput.nextLine();
 
         if (userInput.equals("1")) {
-            playGame(playerOne, new Computer("Cpu", 0), ties, playerOneInput);
+            playGame(playerOne, new Computer("CPU", 0), ties, playerOneInput);
         } else {
-            playGame(playerOne, new Player("Player Two", 0), ties, playerOneInput);
+            Scanner playerTwoInput = new Scanner(System.in);
+            String name = "Player Two";
+            System.out.println("""
+                    Change Player Two's name?
+                    Yes (Y)
+                    No (N)""");
+            String playerTwoChoice = playerTwoInput.nextLine();
+            if(playerTwoChoice.equalsIgnoreCase("Yes") || playerTwoChoice.equalsIgnoreCase("Y")){
+                System.out.println("Enter Player Two's name: ");
+                name = playerTwoInput.nextLine();
+                name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
+                playGame(playerOne, new Player(name, 0), ties, playerOneInput);
+            } else if (playerTwoChoice.equalsIgnoreCase("No") || playerTwoChoice.equalsIgnoreCase("N")) {
+                playGame(playerOne, new Player(name, 0), ties, playerOneInput);
+            } else {
+                System.out.println("Invalid input");
+            }
         }
     }
 
     public static void playGame(Player playerOne, Player playerTwo, int ties, Scanner playerOneInput) {
-        // TODO integrate switch player
         String[] correctInput = {"r", "s", "p"};
         String[] correctInputLong = {"rock", "scissors", "paper"};
         Scanner playerTwoInput = new Scanner(System.in);
@@ -60,6 +73,8 @@ public class Main {
                     Rock (R)
                     Paper (P)
                     Scissors (S)
+                    
+                    Menu (M)
                     Quit (Q)""");
 
         String playerOneMove = playerOneInput.nextLine().toLowerCase();
@@ -73,11 +88,12 @@ public class Main {
 
         if ((Arrays.asList(correctInput).contains(playerOneMove) || Arrays.asList(correctInputLong).contains(playerOneMove)) && (Arrays.asList(correctInput).contains(playerTwoMove) || Arrays.asList(correctInputLong).contains(playerTwoMove))) {
             if ((playerOneMove.equalsIgnoreCase("r") || playerOneMove.equalsIgnoreCase("rock")) && playerTwoMove.equals("s")) {
-                System.out.println("""
-                        Player One picked ROCK
-                        Player Two picked SCISSORS
-                        Player One Wins!
-                        """);
+                System.out.println(playerOne.getName() + " picked ROCK" + '\n' + playerTwo.getName() + " picked SCISSORS" + '\n' + playerOne.getName() + " Wins!");
+//                System.out.println("""
+//                        Player One picked ROCK
+//                        Player Two picked SCISSORS
+//                        Player One Wins!
+//                        """);
 //                player1wins++;
                 playGame(playerOne, playerTwo, ties, playerOneInput);
             } else if ((playerOneMove.equalsIgnoreCase("r") || playerOneMove.equalsIgnoreCase("rock")) && playerTwoMove.equals("p")) {
@@ -89,11 +105,12 @@ public class Main {
 //                player2wins++;
                 playGame(playerOne, playerTwo, ties, playerOneInput);
             } else if ((playerOneMove.equalsIgnoreCase("p") || playerOneMove.equalsIgnoreCase("paper")) && playerTwoMove.equals("r")) {
-                System.out.println("""
-                        Player One picked PAPER
-                        Player Two picked ROCK
-                        Player One Wins!
-                        """);
+                System.out.println(playerOne.getName() + " picked ROCK" + '\n' + playerTwo.getName() + " picked SCISSORS" + '\n' + playerTwo.getName() + " Wins!");
+//                System.out.println("""
+//                        Player One picked PAPER
+//                        Player Two picked ROCK
+//                        Player One Wins!
+//                        """);
 //                player1wins++;
                 playGame(playerOne, playerTwo, ties, playerOneInput);
             } else if ((playerOneMove.equalsIgnoreCase("p") || playerOneMove.equalsIgnoreCase("paper")) && playerTwoMove.equals("s")) {
@@ -130,6 +147,10 @@ public class Main {
             System.out.println("Goodbye :)");
             playerOneInput.close();
             playerTwoInput.close();
+
+        } else if ((playerOneMove.equalsIgnoreCase("m") || playerOneMove.equalsIgnoreCase("menu")) || (playerTwoMove.equalsIgnoreCase("m") || playerTwoMove.equalsIgnoreCase(
+                "menu"))) {
+            menu();
         } else {
             System.out.println("Incorrect Input" + '\n');
             playGame(playerOne, playerTwo, ties, playerOneInput);
@@ -148,13 +169,46 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        try {
+            readFile("rps-project-java/src/history.txt");
+        } catch (IOException e) {
+            System.out.println("Error while reading the file: " + e.getMessage());
+        }
         menu();
     }
 
     // ReadFile to read history.
+    public static void readFile(String fileName) throws IOException {
+        // fileName is a String input
+        // Path converts it to a machine-readable path.
+        Path pathToFile = Paths.get(fileName); // return absolute path of file location
+
+        // BufferReader helps us read the file
+        BufferedReader reader;
+        try {
+            // Reads the file content with the given URI (meaning the local path to the file)
+            reader = new BufferedReader(new FileReader(Paths.get(pathToFile.toUri()).toFile()));
+
+            // Read one line at a time from the BufferReader
+            String currentLine = reader.readLine();
+
+            while (currentLine != null) { // check until the end of file
+//                SuperHero superHero = new SuperHero(); // Create a new SuperHero object for each iteration
+//                String[] data = currentLine.split(",");
+//                superHero.setSuperHeroName(data[0]);
+//                superHero.setRealName(data[1]);
+//                superHero.setPlaceOfBirth(data[2]);
+
+//                superHeroList.add(superHero);
+                currentLine = reader.readLine(); // read the next line. This is the incrementor
+            }
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
 
     public static void writeFile(String name) {
-        Path pathToFile = Paths.get("rps-project-java/src/output.txt");
+        Path pathToFile = Paths.get("rps-project-java/src/history.txt");
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(Paths.get(pathToFile.toUri()).toFile(), true));
             writer.write(name);
