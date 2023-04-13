@@ -24,37 +24,32 @@ public class Main {
         String userInput = input.nextLine();
 
         if (userInput.equalsIgnoreCase("play") || userInput.equalsIgnoreCase("p")) {
+
             playGame(playerOne, playerTwo, ties, input);
         } else if (userInput.equalsIgnoreCase("history") || userInput.equalsIgnoreCase("h")) {
             showHistory();
         } else if (userInput.equalsIgnoreCase("quit") || userInput.equalsIgnoreCase("q")) {
             quitGame(input);
+        } else {
+            System.out.println("Incorrect Input" + '\n');
+            menu();
         }
     }
 
     // Player2 gets passed in as either player2 or cpu;
+    public static void choosePlayer(){
+        System.out.println("1. Single player");
+        System.out.println("2. Two Player");
+//        String playerChoice = input.nextLine();
+    }
 
     public static void playGame(Player playerOne, Player playerTwo, int ties, Scanner input) {
-//        playerOnePoints = 0;
-//        playerTwoPoints = 0;
-//        ties = 0;
+        // TODO integrate switch player
 
         String[] correctInput = {"r", "s", "p"};
         String[] correctInputLong = {"rock", "scissors", "paper"};
         int randomIndex = new Random().nextInt(correctInput.length);
-        String computerMove = correctInput[randomIndex].toUpperCase();
-
-//        Scanner input = new Scanner(System.in);
-
-        // Winning Conditions
-    /*
-        Rock v Paper (Paper)
-        Rock v Scissors (Rock)
-        Paper v Rock (Paper)
-        Paper v Scissors (Scissors)
-        Scissors v Rock (Rock)
-        Scissors v Paper (Scissors)
-     */
+        String computerMove = correctInput[randomIndex];
 
         System.out.println("""
                 Choose your move
@@ -64,44 +59,68 @@ public class Main {
                     Quit (Q)""");
 
         String playerOneInput = input.nextLine().toLowerCase();
-        if ((Arrays.asList(correctInput).contains(playerOneInput) || Arrays.asList(correctInputLong).contains(playerOneInput)) && Arrays.asList(correctInput).contains(computerMove)) {
-            if ((playerOneInput.equalsIgnoreCase("r") || playerOneInput.equalsIgnoreCase("rock")) && computerMove.equalsIgnoreCase("s")) {
-                System.out.println("Player One picked " + playerOneInput + '\n' + "Player Two picked " + computerMove + '\n' + "Player One Wins!" + '\n');
+        if ((Arrays.asList(correctInput).contains(playerOneInput) || Arrays.asList(correctInputLong).contains(playerOneInput))) {
+            if ((playerOneInput.equalsIgnoreCase("r") || playerOneInput.equalsIgnoreCase("rock")) && computerMove.equals("s")) {
+                System.out.println("""
+                        Player One picked ROCK
+                        Player Two picked SCISSORS
+                        Player One Wins!
+                        """);
 //                player1wins++;
                 playGame(playerOne, playerTwo, ties, input);
-            } else if ((playerOneInput.equalsIgnoreCase("r") || playerOneInput.equalsIgnoreCase("rock")) && computerMove.equalsIgnoreCase("p")) {
-                System.out.println("Player One picked " + playerOneInput + '\n' + "Player Two picked " + computerMove + '\n' + "Player Two Wins!" + '\n');
+            } else if ((playerOneInput.equalsIgnoreCase("r") || playerOneInput.equalsIgnoreCase("rock")) && computerMove.equals("p")) {
+                System.out.println("""
+                        Player One picked ROCK
+                        Player Two picked PAPER
+                        Player Two Wins!
+                        """);
 //                player2wins++;
                 playGame(playerOne, playerTwo, ties, input);
-            } else if ((playerOneInput.equalsIgnoreCase("p") || playerOneInput.equalsIgnoreCase("paper")) && computerMove.equalsIgnoreCase("r")) {
-                System.out.println("Player One picked " + playerOneInput + '\n' + "Player Two picked " + computerMove + '\n' + "Player One Wins!" + '\n');
+            } else if ((playerOneInput.equalsIgnoreCase("p") || playerOneInput.equalsIgnoreCase("paper")) && computerMove.equals("r")) {
+                System.out.println("""
+                        Player One picked PAPER
+                        Player Two picked ROCK
+                        Player One Wins!
+                        """);
 //                player1wins++;
                 playGame(playerOne, playerTwo, ties, input);
-            } else if ((playerOneInput.equalsIgnoreCase("p") || playerOneInput.equalsIgnoreCase("paper")) && computerMove.equalsIgnoreCase("s")) {
-                System.out.println("Player One picked " + playerOneInput + '\n' + "Player Two picked " + computerMove + '\n' + "Player Two Wins!" + '\n');
+            } else if ((playerOneInput.equalsIgnoreCase("p") || playerOneInput.equalsIgnoreCase("paper")) && computerMove.equals("s")) {
+                System.out.println("""
+                        Player One picked PAPER
+                        Player Two picked SCISSORS
+                        Player Two Wins!
+                        """);
 //                player2wins++;
                 playGame(playerOne, playerTwo, ties, input);
-            } else if ((playerOneInput.equalsIgnoreCase("s") || playerOneInput.equalsIgnoreCase("scissors")) && computerMove.equalsIgnoreCase("p")) {
-                System.out.println("Player One picked " + playerOneInput + '\n' + "Player Two picked " + computerMove + '\n' + "Player One Wins!" + '\n');
+            } else if ((playerOneInput.equalsIgnoreCase("s") || playerOneInput.equalsIgnoreCase("scissors")) && computerMove.equals("p")) {
+                System.out.println("""
+                        Player One picked SCISSORS
+                        Player Two picked PAPER
+                        Player One Wins!
+                        """);
 //                player1wins++;
                 playGame(playerOne, playerTwo, ties, input);
-            } else if ((playerOneInput.equalsIgnoreCase("s") || playerOneInput.equalsIgnoreCase("scissors")) && computerMove.equalsIgnoreCase("r")) {
-                System.out.println("Player One picked " + playerOneInput + '\n' + "Player Two picked " + computerMove + '\n' + "Player Two Wins!" + '\n');
+            } else if ((playerOneInput.equalsIgnoreCase("s") || playerOneInput.equalsIgnoreCase("scissors")) && computerMove.equals("r")) {
+                System.out.println("""
+                        Player One picked SCISSORS
+                        Player Two picked ROCK
+                        Player Two Wins!
+                        """);
 //                player2wins++;
                 playGame(playerOne, playerTwo, ties, input);
             } else {
-                System.out.println("Player One picked " + playerOneInput + '\n' + "Player Two picked " + computerMove + '\n' + "Draw!" + '\n');
+                System.out.println("Draw!" + '\n');
                 ties++;
                 playGame(playerOne, playerTwo, ties, input);
             }
         } else if (playerOneInput.equalsIgnoreCase("q") || playerOneInput.equalsIgnoreCase("quit")){
+            System.out.println("***Results***" + '\n' + "Player One: " + playerOne.getPoints() + '\n' + "Player Two: " + playerTwo.getPoints() + '\n' + "Ties: " + ties + '\n');
             System.out.println("Goodbye");
             input.close();
         } else {
-            System.out.println("Incorrect Input");
+            System.out.println("Incorrect Input" + '\n');
             playGame(playerOne, playerTwo, ties, input);
         }
-        System.out.print("Player One: " + playerOne.getPoints() + " Player Two: " + playerTwo.getPoints() + " Ties: " + ties);
     }
     // sends game data to a gameList
 
