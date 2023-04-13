@@ -24,7 +24,6 @@ public class Main {
         String userInput = input.nextLine();
 
         if (userInput.equalsIgnoreCase("play") || userInput.equalsIgnoreCase("p")) {
-
             playGame(playerOne, playerTwo, ties, input);
         } else if (userInput.equalsIgnoreCase("history") || userInput.equalsIgnoreCase("h")) {
             showHistory();
@@ -114,9 +113,9 @@ public class Main {
                 playGame(playerOne, playerTwo, ties, input);
             }
         } else if (playerOneInput.equalsIgnoreCase("q") || playerOneInput.equalsIgnoreCase("quit")){
-            System.out.println("***Results***" + '\n' + "Player One: " + playerOne.getPoints() + '\n' + "Player Two: " + playerTwo.getPoints() + '\n' + "Ties: " + ties + '\n');
-            System.out.println("Goodbye");
-            input.close();
+            System.out.println('\n' + "***Results***" + '\n' + "Player One: " + playerOne.getPoints() + '\n' + "Player Two: " + playerTwo.getPoints() + '\n' + "Ties: " + ties + '\n');
+            System.out.println("Goodbye :)");
+            input.close();;
         } else {
             System.out.println("Incorrect Input" + '\n');
             playGame(playerOne, playerTwo, ties, input);
@@ -124,6 +123,9 @@ public class Main {
     }
     // sends game data to a gameList
 
+    public static void openTerminal(){
+
+    }
 
     public static void showHistory() {
         System.out.println("Shows history");
