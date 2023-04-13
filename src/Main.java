@@ -9,9 +9,9 @@ public class Main {
         System.out.println("""
                 Welcome to Rock Paper Scissors
                     What would you like to do?
-                        Play (P)
-                        History (H)
-                        Quit (Q)""");
+                        To play game: Play (P)
+                        To view game history: History (H)
+                        To exit: Quit (Q)""");
 
         Scanner playerOneInput = new Scanner(System.in);
         String userInput = playerOneInput.nextLine();
@@ -28,8 +28,24 @@ public class Main {
         }
     }
 
+    public static void changePlayerName(){
+        Scanner input = new Scanner(System.in);v
+        System.out.println("""
+                1. Player One
+                2. Player Two
+                
+                Menu (M)
+                Quit (Q)""");
+
+        String menuChoice = input.nextLine();
+        if(menuChoice.equals("1")) {
+            playerOne.setName();
+        }
+    }
+
     public static void choosePlayer(Scanner playerOneInput) {
         Player playerOne = new Player("Player One", 0);
+        Player playerTwo = new Player("Player Two", 0);
         int ties = 0;
 
         System.out.println("*** Choose players ***");
@@ -41,7 +57,6 @@ public class Main {
         if (userInput.equals("1")) {
             playGame(playerOne, new Computer("CPU", 0), ties, playerOneInput);
         } else {
-            Player playerTwo = new Player("Player Two", 0);
             Scanner playerTwoInput = new Scanner(System.in);
             String name = "Player Two";
             System.out.println("""
@@ -61,6 +76,8 @@ public class Main {
             } else {
                 System.out.println("Invalid input");
             }
+
+            // If 3, changePlayerName()
         }
     }
 
