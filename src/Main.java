@@ -1,5 +1,8 @@
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -62,8 +65,6 @@ public class Main {
         String playerOneMove = playerOneInput.nextLine().toLowerCase();
         String playerTwoMove;
 
-//        if (playerTwo.getName().equalsIgnoreCase("cpu")) {
-//            playerTwoMove = Computer.computerMove();
         if (playerTwo instanceof Computer) {
             playerTwoMove = ((Computer) playerTwo).computerMove();
         } else {
@@ -151,8 +152,7 @@ public class Main {
             System.out.println("Incorrect Input" + '\n');
             playGame(playerOne, playerTwo, ties, playerOneInput);
         }
-        // sends game data to a gameList
-//        writeFile();
+
     }
 
     public static void showHistory() {
@@ -162,12 +162,18 @@ public class Main {
 
     public static void quitGame(Player playerOne, Player playerTwo, int ties, Scanner input) {
         UI.quitGameText(playerOne, playerTwo, ties);
+        // sends game data to a gameList
+        HashMap<Player, String> gameData = new HashMap<>();
+        gameData.put(playerOne, playerOne.getName());
+        gameData.put(playerTwo, playerTwo.getName());
+        writeFile(gameData, ties);
+
         input.close();
     }
 
     public static void main(String[] args) {
         try {
-            readFile("rps-project-java/src/history.txt");
+            readFile("src/gameHistory.txt");
         } catch (IOException e) {
             System.out.println("Error while reading the file: " + e.getMessage());
         }
@@ -177,10 +183,11 @@ public class Main {
         int ties = 0;
 
         menu(playerOne, playerTwo, ties);
+
     }
 
 
-    // TODO ReadFile to read history.txt
+    // TODO ReadFile to read gameHistory.txt
     // showHistory
     public static void readFile(String fileName) throws IOException {
         Path pathToFile = Paths.get(fileName);
@@ -197,11 +204,19 @@ public class Main {
         }
     }
 
-    public static void writeFile(String name) {
-        Path pathToFile = Paths.get("rps-project-java/src/history.txt");
+    public static void writeFile(Object gameData, int ties) {
+        LocalDateTime myDateObj = LocalDateTime.now();
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");
+        String formattedDate = myDateObj.format(myFormatObj);
+//        System.out.println(formattedDate);
+
+
+        Path pathToFile = Paths.get("src/gameHistory.txt");
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(Paths.get(pathToFile.toUri()).toFile(), true));
-            writer.write(name);
+            writer.write(formattedDate);
+            writer.write(String.valueOf(gameData));
+            writer.write(ties);
             writer.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());
