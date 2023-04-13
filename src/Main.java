@@ -28,59 +28,56 @@ public class Main {
         }
     }
 
-    public static void changePlayerName(){
+    public static void changePlayerName(Player playerOne, Player playerTwo){
         Scanner input = new Scanner(System.in);
-        System.out.println("""
-                1. Player One
-                2. Player Two
-                
-                Menu (M)
-                Quit (Q)""");
+        System.out.println('\n' + "*** Choose Player Name ***" + '\n' + "1. " + playerOne.getName()
+                + '\n' + "2. " + playerTwo.getName()
+                + '\n'
+                + '\n' + "Menu (M)"
+                + '\n' + "Quit (Q)"
+        );
 
         String menuChoice = input.nextLine();
         if(menuChoice.equals("1")) {
-//            playerOne.setName();
+            System.out.println('\n' + "Enter new name");
+            String name = input.nextLine();
+            name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
+            playerOne.setName(name);
+        } else if(menuChoice.equals("2")) {
+            System.out.println('\n' + "Enter new name");
+            String name = input.nextLine();
+            name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
+            playerTwo.setName(name);
+        } else if (menuChoice.equalsIgnoreCase("m") || menuChoice.equalsIgnoreCase("menu")) {
+            menu();
+        } else if (menuChoice.equalsIgnoreCase("q") || menuChoice.equalsIgnoreCase("quit")) {
+            input.close();
+        } else {
+            System.out.println("Invalid input");
         }
+        changePlayerName(playerOne, playerTwo);
     }
 
     public static void choosePlayer(Scanner playerOneInput) {
         Player playerOne = new Player("Player One", 0);
         Player playerTwo = new Player("Player Two", 0);
+        Computer cpu = new Computer("CPU", 0);
         int ties = 0;
 
-        System.out.println("*** Choose players ***");
-        System.out.println("1. Single player");
-        System.out.println("2. Two Players");
-        System.out.println("3. Change Player Names");
+        System.out.println("""
+
+                *** Choose players ***
+                1. Single player
+                2. Two Players
+                3. Change Player Names
+                """);
         String userInput = playerOneInput.nextLine();
 
-        if (userInput.equals("1")) {
-            playGame(playerOne, new Computer("CPU", 0), ties, playerOneInput);
-        } else if(userInput.equals("2")) {
-            Scanner playerTwoInput = new Scanner(System.in);
-            String name = "Player Two";
-            System.out.println("""
-                    Change Player Two's name?
-                    Yes (Y)
-                    No (N)""");
-            String playerTwoChoice = playerTwoInput.nextLine();
-
-            if (playerTwoChoice.equalsIgnoreCase("Yes") || playerTwoChoice.equalsIgnoreCase("Y")) {
-                System.out.println("Enter Player Two's name: ");
-                name = playerTwoInput.nextLine();
-                name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
-                playerTwo.setName(name);
-                playGame(playerOne, playerTwo, ties, playerOneInput);
-            } else if (playerTwoChoice.equalsIgnoreCase("No") || playerTwoChoice.equalsIgnoreCase("N")) {
-                playGame(playerOne, playerTwo, ties, playerOneInput);
-            } else {
-                System.out.println("Invalid input");
-            }
-
-        } else if(userInput.equals("3")) {
-            changePlayerName();
-        } else {
-            System.out.println("Invalid input");
+        switch (userInput) {
+            case "1" -> playGame(playerOne, cpu, ties, playerOneInput);
+            case "2" -> playGame(playerOne, playerTwo, ties, playerOneInput);
+            case "3" -> changePlayerName(playerOne, playerTwo);
+            default -> System.out.println("Invalid input");
         }
     }
 
@@ -89,8 +86,18 @@ public class Main {
         String[] correctInputLong = {"rock", "scissors", "paper"};
         Scanner playerTwoInput = new Scanner(System.in);
 
-        System.out.println('\n' + "!!*** " + playerOne.getName() + " vs " + playerTwo.getName() + " ***!!" + '\n'  + '\n' + "Game" + '\n' + "=====" + '\n' + "Choose your move" + '\n' +
-                "Rock (R)" + '\n' + "Paper (P)" + '\n' + "Scissors (S)" + '\n' + '\n' + "Menu (M)" + '\n' + "Quit (Q)");
+        System.out.println('\n' + "!!*** " + playerOne.getName() + " vs " + playerTwo.getName() + " ***!!"
+                + '\n'
+                + '\n' + "Game"
+                + '\n' + "====="
+                + '\n' + "Choose your move"
+                + '\n' + "Rock (R)"
+                + '\n' + "Paper (P)"
+                + '\n' + "Scissors (S)"
+                + '\n'
+                + '\n' + "Menu (M)"
+                + '\n' + "Quit (Q)"
+                + '\n');
 
         String playerOneMove = playerOneInput.nextLine().toLowerCase();
         String playerTwoMove;
@@ -104,11 +111,15 @@ public class Main {
         if ((Arrays.asList(correctInput).contains(playerOneMove) || Arrays.asList(correctInputLong).contains(playerOneMove)) ||
                 (Arrays.asList(correctInput).contains(playerTwoMove) || Arrays.asList(correctInputLong).contains(playerTwoMove))) {
             if ((playerOneMove.equalsIgnoreCase("r") || playerOneMove.equalsIgnoreCase("rock")) && playerTwoMove.equals("s")) {
-                System.out.println(playerOne.getName() + " picked ROCK" + '\n' + playerTwo.getName() + " picked SCISSORS" + '\n' + playerOne.getName() + " Wins!");
+                System.out.println('\n' +
+                        playerOne.getName() + " picked ROCK"
+                        + '\n' + playerTwo.getName() + " picked SCISSORS"
+                        + '\n' + playerOne.getName() + " Wins!");
                 playerOne.setPoints();
                 playGame(playerOne, playerTwo, ties, playerOneInput);
             } else if ((playerOneMove.equalsIgnoreCase("r") || playerOneMove.equalsIgnoreCase("rock")) && playerTwoMove.equals("p")) {
                 System.out.println("""
+                        
                         Player One picked ROCK
                         Player Two picked PAPER
                         Player Two Wins!
@@ -121,26 +132,26 @@ public class Main {
                 playGame(playerOne, playerTwo, ties, playerOneInput);
             } else if ((playerOneMove.equalsIgnoreCase("p") || playerOneMove.equalsIgnoreCase("paper")) && playerTwoMove.equals("s")) {
                 System.out.println("""
+                        
                         Player One picked PAPER
                         Player Two picked SCISSORS
-                        Player Two Wins!
-                        """);
+                        Player Two Wins!""");
                 playerTwo.setPoints();
                 playGame(playerOne, playerTwo, ties, playerOneInput);
             } else if ((playerOneMove.equalsIgnoreCase("s") || playerOneMove.equalsIgnoreCase("scissors")) && playerTwoMove.equals("p")) {
                 System.out.println("""
+                        
                         Player One picked SCISSORS
                         Player Two picked PAPER
-                        Player One Wins!
-                        """);
+                        Player One Wins!""");
 //                player1wins++;
                 playGame(playerOne, playerTwo, ties, playerOneInput);
             } else if ((playerOneMove.equalsIgnoreCase("s") || playerOneMove.equalsIgnoreCase("scissors")) && playerTwoMove.equals("r")) {
                 System.out.println("""
+                        
                         Player One picked SCISSORS
                         Player Two picked ROCK
-                        Player Two Wins!
-                        """);
+                        Player Two Wins!""");
 //                player2wins++;
                 playGame(playerOne, playerTwo, ties, playerOneInput);
             } else {
@@ -170,7 +181,7 @@ public class Main {
     }
 
     public static void quitGame(Scanner input) {
-        System.out.println("Goodbye");
+        System.out.println("Goodbye :)");
         input.close();
     }
 
