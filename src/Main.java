@@ -6,12 +6,7 @@ import java.nio.file.Paths;
 
 public class Main {
     public static void menu(Player playerOne, Player playerTwo, int ties) {
-        System.out.println("""
-                !** Welcome to Rock Paper Scissors **!
-                    Type to begin:
-                        Play (P)
-                        History (H)
-                        Quit (Q)""");
+        UI.menuText();
 
         Scanner playerOneInput = new Scanner(System.in);
         String userInput = playerOneInput.nextLine();
@@ -28,47 +23,17 @@ public class Main {
         }
     }
 
-//    public static void choosePlayer(HumanPlayer playerOne, HumanPlayer playerTwo, int ties, Scanner playerOneInput) {
-//        Computer cpu = new Computer("CPU", 0);
-//
-//        System.out.println("""
-//
-//                *** Choose players ***
-//                Single player (1)
-//                Two Players (2)
-//                Change Player Names (3)
-//                """);
-//        String userInput = playerOneInput.nextLine();
-//
-//        switch (userInput) {
-//            case "1" -> playGame(playerOne, cpu, ties, playerOneInput);
-//            case "2" -> playGame(playerOne, playerTwo, ties, playerOneInput);
-//            case "3" -> changePlayerName(playerOne, playerTwo, ties, playerOneInput);
-//            default -> {
-//                System.out.println("Invalid input");
-//                choosePlayer(playerOne, playerTwo, ties, playerOneInput);
-//            }
-//        }
-//    }
-
-    public static void changePlayerName(Player playerOne, Player playerTwo, int ties, Scanner input){
-//        Scanner input = new Scanner(System.in);
-        System.out.println('\n' + "*** Choose Player Name ***" + '\n' + "1. " + playerOne.getName()
-                + '\n' + "2. " + playerTwo.getName()
-                + '\n'
-                + '\n' + "Play (P)"
-                + '\n' + "Menu (M)"
-                + '\n' + "Quit (Q)"
-                + '\n');
+    public static void changePlayerName(Player playerOne, Player playerTwo, int ties, Scanner input) {
+        UI.changePlayerNameText(playerOne, playerTwo);
 
         String menuChoice = input.nextLine();
-        if(menuChoice.equals("1")) {
+        if (menuChoice.equals("1")) {
             System.out.println('\n' + "Enter new name");
             String name = input.nextLine();
             name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
             playerOne.setName(name);
             changePlayerName(playerOne, playerTwo, ties, input);
-        } else if(menuChoice.equals("2")) {
+        } else if (menuChoice.equals("2")) {
             System.out.println('\n' + "Enter new name");
             String name = input.nextLine();
             name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
@@ -92,29 +57,14 @@ public class Main {
         String[] correctInputLong = {"rock", "scissors", "paper"};
         Scanner playerTwoInput = new Scanner(System.in);
 
-        System.out.println('\n' + "*** " + playerOne.getName() + " vs " + playerTwo.getName() + " ***"
-                + '\n'
-                + '\n' + "* Points *"
-                + '\n' + playerOne.getName() + ": " + playerOne.getPoints() + " wins"
-                + '\n' + playerTwo.getName() + ": " + playerTwo.getPoints() + " wins"
-                + '\n' + "Ties: " + ties
-                + '\n'
-                + '\n' + "====="
-                + '\n' + "Choose your move"
-                + '\n' + "Rock (R)"
-                + '\n' + "Paper (P)"
-                + '\n' + "Scissors (S)"
-                + '\n'
-                + '\n' + "Menu (M)"
-                + '\n' + "Quit (Q)"
-                + '\n');
+        UI.playGameText(playerOne, playerTwo, ties);
 
         String playerOneMove = playerOneInput.nextLine().toLowerCase();
         String playerTwoMove;
 
 //        if (playerTwo.getName().equalsIgnoreCase("cpu")) {
 //            playerTwoMove = Computer.computerMove();
-        if(playerTwo instanceof Computer) {
+        if (playerTwo instanceof Computer) {
             playerTwoMove = ((Computer) playerTwo).computerMove();
         } else {
             playerTwoMove = playerTwoInput.nextLine().toLowerCase();
@@ -130,9 +80,6 @@ public class Main {
 
         boolean playerChoseMenu = (playerOneMove.equalsIgnoreCase("m") || playerOneMove.equalsIgnoreCase("menu")) ||
                 (playerTwoMove.equalsIgnoreCase("m") || playerTwoMove.equalsIgnoreCase("menu"));
-
-        boolean playerOneChoseMenu =  playerOneMove.equalsIgnoreCase("m") || playerOneMove.equalsIgnoreCase("menu");
-        boolean playerTwoChoseMenu = playerTwoMove.equalsIgnoreCase("m") || playerTwoMove.equalsIgnoreCase("menu");
 
         boolean playerChoseQuit = (playerOneMove.equalsIgnoreCase("q") || playerOneMove.equalsIgnoreCase("quit")) ||
                 (playerTwoMove.equalsIgnoreCase("q") || playerTwoMove.equalsIgnoreCase("quit"));
@@ -213,13 +160,7 @@ public class Main {
     }
 
     public static void quitGame(Player playerOne, Player playerTwo, int ties, Scanner input) {
-        System.out.println('\n' +
-                "*** Results ***" + '\n' +
-                "Player One: " + playerOne.getPoints() + '\n' +
-                "Player Two: " + playerTwo.getPoints() + '\n' +
-                "Ties: " + ties + '\n' +
-                "Goodbye :)"
-        );
+        UI.quitGameText(playerOne, playerTwo, ties);
         input.close();
     }
 
@@ -246,18 +187,11 @@ public class Main {
             reader = new BufferedReader(new FileReader(Paths.get(pathToFile.toUri()).toFile()));
             String currentLine = reader.readLine();
 
-            while (currentLine != null) { // check until the end of file
-//                SuperHero superHero = new SuperHero(); // Create a new SuperHero object for each iteration
-//                String[] data = currentLine.split(",");
-//                superHero.setSuperHeroName(data[0]);
-//                superHero.setRealName(data[1]);
-//                superHero.setPlaceOfBirth(data[2]);
-
-//                superHeroList.add(superHero);
+            while (currentLine != null) { 
                 currentLine = reader.readLine();
             }
         } catch (IOException e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
     }
 
