@@ -110,14 +110,15 @@ public class Main {
 
         if ((Arrays.asList(correctInput).contains(playerOneMove) || Arrays.asList(correctInputLong).contains(playerOneMove)) ||
                 (Arrays.asList(correctInput).contains(playerTwoMove) || Arrays.asList(correctInputLong).contains(playerTwoMove))) {
-            if ((playerOneMove.equalsIgnoreCase("r") || playerOneMove.equalsIgnoreCase("rock")) && playerTwoMove.equals("s")) {
+            if ((playerOneMove.equalsIgnoreCase("r") || playerOneMove.equalsIgnoreCase("rock")) &&
+                    (playerTwoMove.equalsIgnoreCase("s") || playerTwoMove.equalsIgnoreCase("scissors"))) {
                 System.out.println('\n' +
                         playerOne.getName() + " picked ROCK"
                         + '\n' + playerTwo.getName() + " picked SCISSORS"
                         + '\n' + playerOne.getName() + " Wins!");
                 playerOne.setPoints();
                 playGame(playerOne, playerTwo, ties, playerOneInput);
-            } else if ((playerOneMove.equalsIgnoreCase("r") || playerOneMove.equalsIgnoreCase("rock")) && playerTwoMove.equals("p")) {
+            } else if ((playerOneMove.equalsIgnoreCase("r") || playerOneMove.equalsIgnoreCase("rock")) && playerTwoMove.equalsIgnoreCase("p")) {
                 System.out.println("""
                         
                         Player One picked ROCK
@@ -130,7 +131,7 @@ public class Main {
                 System.out.println(playerOne.getName() + " picked ROCK" + '\n' + playerTwo.getName() + " picked SCISSORS" + '\n' + playerTwo.getName() + " Wins!");
                 playerOne.setPoints();
                 playGame(playerOne, playerTwo, ties, playerOneInput);
-            } else if ((playerOneMove.equalsIgnoreCase("p") || playerOneMove.equalsIgnoreCase("paper")) && playerTwoMove.equals("s")) {
+            } else if ((playerOneMove.equalsIgnoreCase("p") || playerOneMove.equalsIgnoreCase("paper")) && playerTwoMove.equalsIgnoreCase("s")) {
                 System.out.println("""
                         
                         Player One picked PAPER
@@ -138,7 +139,7 @@ public class Main {
                         Player Two Wins!""");
                 playerTwo.setPoints();
                 playGame(playerOne, playerTwo, ties, playerOneInput);
-            } else if ((playerOneMove.equalsIgnoreCase("s") || playerOneMove.equalsIgnoreCase("scissors")) && playerTwoMove.equals("p")) {
+            } else if ((playerOneMove.equalsIgnoreCase("s") || playerOneMove.equalsIgnoreCase("scissors")) && playerTwoMove.equalsIgnoreCase("p")) {
                 System.out.println("""
                         
                         Player One picked SCISSORS
@@ -146,7 +147,7 @@ public class Main {
                         Player One Wins!""");
 //                player1wins++;
                 playGame(playerOne, playerTwo, ties, playerOneInput);
-            } else if ((playerOneMove.equalsIgnoreCase("s") || playerOneMove.equalsIgnoreCase("scissors")) && playerTwoMove.equals("r")) {
+            } else if ((playerOneMove.equalsIgnoreCase("s") || playerOneMove.equalsIgnoreCase("scissors")) && playerTwoMove.equalsIgnoreCase("r")) {
                 System.out.println("""
                         
                         Player One picked SCISSORS
