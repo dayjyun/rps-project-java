@@ -5,58 +5,58 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Main {
-    public static void menu() {
-        Player playerOne = new Player("Player One", 0);
-        Player playerTwo = new Player("Player Two", 0);
-        int ties = 0;
-
+    public static void menu(Player playerOne, Player playerTwo, int ties) {
         System.out.println("""
-                Welcome to Rock Paper Scissors
-                    What would you like to do?
-                        To play game: Play (P)
-                        To view game history: History (H)
-                        To exit: Quit (Q)""");
+                !** Welcome to Rock Paper Scissors **!
+                    Type to begin:
+                        Play (P)
+                        History (H)
+                        Quit (Q)""");
 
         Scanner playerOneInput = new Scanner(System.in);
         String userInput = playerOneInput.nextLine();
 
         if (userInput.equalsIgnoreCase("play") || userInput.equalsIgnoreCase("p")) {
-            choosePlayer(playerOne, playerTwo, ties, playerOneInput);
+            GameAlgorithm.choosePlayer(playerOne, playerTwo, ties, playerOneInput);
         } else if (userInput.equalsIgnoreCase("history") || userInput.equalsIgnoreCase("h")) {
             showHistory();
         } else if (userInput.equalsIgnoreCase("quit") || userInput.equalsIgnoreCase("q")) {
             quitGame(playerOne, playerTwo, ties, playerOneInput);
         } else {
             System.out.println("Incorrect Input" + '\n');
-            menu();
+            menu(playerOne, playerTwo, ties);
         }
     }
 
-    public static void choosePlayer(Player playerOne, Player playerTwo, int ties, Scanner playerOneInput) {
-        Computer cpu = new Computer("CPU", 0);
-
-        System.out.println("""
-
-                *** Choose players ***
-                1. Single player
-                2. Two Players
-                3. Change Player Names
-                """);
-        String userInput = playerOneInput.nextLine();
-
-        switch (userInput) {
-            case "1" -> playGame(playerOne, cpu, ties, playerOneInput);
-            case "2" -> playGame(playerOne, playerTwo, ties, playerOneInput);
-            case "3" -> changePlayerName(playerOne, playerTwo, ties, playerOneInput);
-            default -> System.out.println("Invalid input");
-        }
-    }
+//    public static void choosePlayer(HumanPlayer playerOne, HumanPlayer playerTwo, int ties, Scanner playerOneInput) {
+//        Computer cpu = new Computer("CPU", 0);
+//
+//        System.out.println("""
+//
+//                *** Choose players ***
+//                Single player (1)
+//                Two Players (2)
+//                Change Player Names (3)
+//                """);
+//        String userInput = playerOneInput.nextLine();
+//
+//        switch (userInput) {
+//            case "1" -> playGame(playerOne, cpu, ties, playerOneInput);
+//            case "2" -> playGame(playerOne, playerTwo, ties, playerOneInput);
+//            case "3" -> changePlayerName(playerOne, playerTwo, ties, playerOneInput);
+//            default -> {
+//                System.out.println("Invalid input");
+//                choosePlayer(playerOne, playerTwo, ties, playerOneInput);
+//            }
+//        }
+//    }
 
     public static void changePlayerName(Player playerOne, Player playerTwo, int ties, Scanner input){
 //        Scanner input = new Scanner(System.in);
         System.out.println('\n' + "*** Choose Player Name ***" + '\n' + "1. " + playerOne.getName()
                 + '\n' + "2. " + playerTwo.getName()
                 + '\n'
+                + '\n' + "Play (P)"
                 + '\n' + "Menu (M)"
                 + '\n' + "Quit (Q)"
                 + '\n');
@@ -75,15 +75,17 @@ public class Main {
             playerTwo.setName(name);
             changePlayerName(playerOne, playerTwo, ties, input);
         } else if (menuChoice.equalsIgnoreCase("m") || menuChoice.equalsIgnoreCase("menu")) {
-            menu();
+            menu(playerOne, playerTwo, ties);
         } else if (menuChoice.equalsIgnoreCase("q") || menuChoice.equalsIgnoreCase("quit")) {
-//            input.close();
             quitGame(playerOne, playerTwo, ties, input);
+        } else if (menuChoice.equalsIgnoreCase("p") || menuChoice.equalsIgnoreCase("play")) {
+            playGame(playerOne, playerTwo, ties, input);
         } else {
             System.out.println("Invalid input");
             changePlayerName(playerOne, playerTwo, ties, input);
         }
     }
+
 
     public static void playGame(Player playerOne, Player playerTwo, int ties, Scanner playerOneInput) {
         String[] correctInput = {"r", "s", "p"};
@@ -110,8 +112,10 @@ public class Main {
         String playerOneMove = playerOneInput.nextLine().toLowerCase();
         String playerTwoMove;
 
-        if (playerTwo.getName().equalsIgnoreCase("cpu")) {
-            playerTwoMove = Computer.computerMove();
+//        if (playerTwo.getName().equalsIgnoreCase("cpu")) {
+//            playerTwoMove = Computer.computerMove();
+        if(playerTwo instanceof Computer) {
+            playerTwoMove = ((Computer) playerTwo).computerMove();
         } else {
             playerTwoMove = playerTwoInput.nextLine().toLowerCase();
         }
@@ -137,7 +141,7 @@ public class Main {
         boolean playerTwoEnteredValidKey = Arrays.asList(correctInput).contains(playerTwoMove) || Arrays.asList(correctInputLong).contains(playerTwoMove);
 
         if (playerChoseMenu) {
-            menu();
+            menu(playerOne, playerTwo, ties);
         } else if (playerChoseQuit) {
             quitGame(playerOne, playerTwo, ties, playerOneInput);
 
@@ -213,8 +217,9 @@ public class Main {
                 "*** Results ***" + '\n' +
                 "Player One: " + playerOne.getPoints() + '\n' +
                 "Player Two: " + playerTwo.getPoints() + '\n' +
-                "Ties: " + ties + '\n');
-        System.out.println("Goodbye :)");
+                "Ties: " + ties + '\n' +
+                "Goodbye :)"
+        );
         input.close();
     }
 
@@ -224,12 +229,13 @@ public class Main {
         } catch (IOException e) {
             System.out.println("Error while reading the file: " + e.getMessage());
         }
-        menu();
+
+        HumanPlayer playerOne = new HumanPlayer("Player One", 0);
+        HumanPlayer playerTwo = new HumanPlayer("Player Two", 0);
+        int ties = 0;
+
+        menu(playerOne, playerTwo, ties);
     }
-
-
-
-
 
 
     // TODO ReadFile to read history.txt
