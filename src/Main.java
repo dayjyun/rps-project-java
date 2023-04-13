@@ -152,6 +152,7 @@ public class Main {
             playGame(playerOne, playerTwo, ties, playerOneInput);
         }
         // sends game data to a gameList
+//        writeFile();
     }
 
     public static void showHistory() {
@@ -180,6 +181,7 @@ public class Main {
 
 
     // TODO ReadFile to read history.txt
+    // showHistory
     public static void readFile(String fileName) throws IOException {
         Path pathToFile = Paths.get(fileName);
         BufferedReader reader;
@@ -187,7 +189,7 @@ public class Main {
             reader = new BufferedReader(new FileReader(Paths.get(pathToFile.toUri()).toFile()));
             String currentLine = reader.readLine();
 
-            while (currentLine != null) { 
+            while (currentLine != null) {
                 currentLine = reader.readLine();
             }
         } catch (IOException e) {

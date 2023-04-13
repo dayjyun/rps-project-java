@@ -1,11 +1,21 @@
 public class UI {
     public static void menuText(){
         System.out.println("""
-                !** Welcome to Rock Paper Scissors **!
+                *** Welcome to Rock Paper Scissors ***
                     Type to begin:
                         Play (P)
                         History (H)
                         Quit (Q)""");
+    }
+
+    public static void choosePLayerText() {
+        System.out.println("""
+
+                *** Choose players ***
+                Single player (1)
+                Two Players (2)
+                Change Player Names (3)
+                """);
     }
 
     public static void changePlayerNameText(Player playerOne, Player playerTwo) {
