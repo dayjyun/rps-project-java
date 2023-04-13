@@ -108,7 +108,16 @@ public class Main {
             playerTwoMove = playerTwoInput.nextLine().toLowerCase();
         }
 
-        if ((Arrays.asList(correctInput).contains(playerOneMove) || Arrays.asList(correctInputLong).contains(playerOneMove)) ||
+        if ((playerOneMove.equalsIgnoreCase("m") || playerOneMove.equalsIgnoreCase("menu")) ||
+                (playerTwoMove.equalsIgnoreCase("m") || playerTwoMove.equalsIgnoreCase("menu"))) {
+            menu();
+
+        } else if (playerOneMove.equalsIgnoreCase("q") || playerOneMove.equalsIgnoreCase("quit")) {
+            System.out.println('\n' + "***Results***" + '\n' + "Player One: " + playerOne.getPoints() + '\n' + "Player Two: " + playerTwo.getPoints() + '\n' + "Ties: " + ties + '\n');
+            System.out.println("Goodbye :)");
+            playerOneInput.close();
+
+        } else if ((Arrays.asList(correctInput).contains(playerOneMove) || Arrays.asList(correctInputLong).contains(playerOneMove)) ||
                 (Arrays.asList(correctInput).contains(playerTwoMove) || Arrays.asList(correctInputLong).contains(playerTwoMove))) {
             if ((playerOneMove.equalsIgnoreCase("r") || playerOneMove.equalsIgnoreCase("rock")) &&
                     (playerTwoMove.equalsIgnoreCase("s") || playerTwoMove.equalsIgnoreCase("scissors"))) {
@@ -160,15 +169,7 @@ public class Main {
                 ties++;
                 playGame(playerOne, playerTwo, ties, playerOneInput);
             }
-// TODO ADD move info
-        } else if (playerOneMove.equalsIgnoreCase("q") || playerOneMove.equalsIgnoreCase("quit")) {
-            System.out.println('\n' + "***Results***" + '\n' + "Player One: " + playerOne.getPoints() + '\n' + "Player Two: " + playerTwo.getPoints() + '\n' + "Ties: " + ties + '\n');
-            System.out.println("Goodbye :)");
-            playerOneInput.close();
 
-        } else if ((playerOneMove.equalsIgnoreCase("m") || playerOneMove.equalsIgnoreCase("menu")) || (playerTwoMove.equalsIgnoreCase("m") || playerTwoMove.equalsIgnoreCase(
-                "menu"))) {
-            menu();
         } else {
             System.out.println("Incorrect Input" + '\n');
             playGame(playerOne, playerTwo, ties, playerOneInput);
