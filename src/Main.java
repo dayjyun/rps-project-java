@@ -166,6 +166,7 @@ public class Main {
         HashMap<Player, String> gameData = new HashMap<>();
         gameData.put(playerOne, playerOne.getName());
         gameData.put(playerTwo, playerTwo.getName());
+
         writeFile(gameData, ties);
 
         input.close();
@@ -206,7 +207,7 @@ public class Main {
 
     public static void writeFile(Object gameData, int ties) {
         LocalDateTime myDateObj = LocalDateTime.now();
-        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("MMM dd, yyyy HH:mm:ss");
         String formattedDate = myDateObj.format(myFormatObj);
 //        System.out.println(formattedDate);
 
@@ -214,9 +215,9 @@ public class Main {
         Path pathToFile = Paths.get("src/gameHistory.txt");
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(Paths.get(pathToFile.toUri()).toFile(), true));
-            writer.write(formattedDate);
-            writer.write(String.valueOf(gameData));
-            writer.write(ties);
+            writer.write(formattedDate + '\n');
+            writer.write(String.valueOf(gameData) + '\n');
+            writer.write("Ties: " + ties + '\n' + '\n');
             writer.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());
