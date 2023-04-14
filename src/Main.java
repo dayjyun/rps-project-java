@@ -109,6 +109,10 @@ public class Main {
         String playerOneMove = playerOneInput.nextLine().toLowerCase().trim();
         String playerTwoMove;
 
+        /*
+        The following lines of code check whether our player two happens to be an AI, or if it's another person. Depending on the result will determine whether the inputs for
+        player two entered automatically, or if we will need a second player to add their turn input.
+         */
         if (playerTwo instanceof Computer) {
             playerTwoMove = ((Computer) playerTwo).computerMove();
             System.out.println('\n' + playerTwo.getName() + "'s turn" + '\n');
