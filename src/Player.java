@@ -2,6 +2,8 @@ public abstract class Player {
     private String name;
     private int points;
 
+    public Player(){}
+
     public Player(String name, int points) {
         this.name = name;
         this.points = points;
@@ -24,7 +26,10 @@ public abstract class Player {
     }
 
     @Override
+//    public String toString() {
+//        return "Points=" + points + " Name";
+//    }
     public String toString() {
-        return "Points=" + points + " Name";
+        return name + " " + points;
     }
 }

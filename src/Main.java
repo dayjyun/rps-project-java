@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Main {
-    public static void menu(Player playerOne, Player playerTwo, int ties) {
+    public static void menu(Player playerOne, Player playerTwo, int ties) throws IOException {
         UI.menuText();
 
         Scanner playerOneInput = new Scanner(System.in);
@@ -17,7 +17,12 @@ public class Main {
         if (userInput.equalsIgnoreCase("play") || userInput.equalsIgnoreCase("p")) {
             GameAlgorithm.choosePlayer(playerOne, playerTwo, ties, playerOneInput);
         } else if (userInput.equalsIgnoreCase("history") || userInput.equalsIgnoreCase("h")) {
-            showHistory();
+            try {
+                readFile("src/gameHistory.txt");
+            } catch (IOException e) {
+                System.out.println("Error while reading the file: " + e.getMessage());
+            }
+
         } else if (userInput.equalsIgnoreCase("quit") || userInput.equalsIgnoreCase("q")) {
             quitGame(playerOne, playerTwo, ties, playerOneInput);
         } else {
@@ -26,7 +31,7 @@ public class Main {
         }
     }
 
-    public static void changePlayerName(Player playerOne, Player playerTwo, int ties, Scanner input) {
+    public static void changePlayerName(Player playerOne, Player playerTwo, int ties, Scanner input) throws IOException {
         UI.changePlayerNameText(playerOne, playerTwo);
 
         String menuChoice = input.nextLine();
@@ -55,7 +60,7 @@ public class Main {
     }
 
 
-    public static void playGame(Player playerOne, Player playerTwo, int ties, Scanner playerOneInput) {
+    public static void playGame(Player playerOne, Player playerTwo, int ties, Scanner playerOneInput) throws IOException {
         String[] correctInput = {"r", "s", "p"};
         String[] correctInputLong = {"rock", "scissors", "paper"};
         Scanner playerTwoInput = new Scanner(System.in);
@@ -155,11 +160,6 @@ public class Main {
 
     }
 
-    public static void showHistory() {
-        System.out.println("Shows history");
-        // reads data from gameList
-    }
-
     public static void quitGame(Player playerOne, Player playerTwo, int ties, Scanner input) {
         UI.quitGameText(playerOne, playerTwo, ties);
         // sends game data to a gameList
@@ -172,12 +172,7 @@ public class Main {
         input.close();
     }
 
-    public static void main(String[] args) {
-        try {
-            readFile("src/gameHistory.txt");
-        } catch (IOException e) {
-            System.out.println("Error while reading the file: " + e.getMessage());
-        }
+    public static void main(String[] args) throws IOException {
 
         HumanPlayer playerOne = new HumanPlayer("Player One", 0);
         HumanPlayer playerTwo = new HumanPlayer("Player Two", 0);
@@ -197,8 +192,12 @@ public class Main {
             reader = new BufferedReader(new FileReader(Paths.get(pathToFile.toUri()).toFile()));
             String currentLine = reader.readLine();
 
-            while (currentLine != null) {
-                currentLine = reader.readLine();
+            while (currentLine.length() > 5) {
+                HumanPlayer player = new HumanPlayer();
+                String[] playerData = currentLine.split(" ");
+                System.out.println(Arrays.toString(playerData));
+                    currentLine = reader.readLine();
+
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -216,7 +215,7 @@ public class Main {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(Paths.get(pathToFile.toUri()).toFile(), true));
             writer.write(formattedDate + '\n');
-            writer.write(String.valueOf(gameData) + '\n');
+            writer.write(gameData.toString() + '\n');
             writer.write("Ties: " + ties + '\n' + '\n');
             writer.close();
         } catch (IOException e) {

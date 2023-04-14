@@ -1,7 +1,8 @@
+import java.io.IOException;
 import java.util.Scanner;
 
 public class GameAlgorithm {
-    public static void choosePlayer(Player playerOne, Player playerTwo, int ties, Scanner playerOneInput) {
+    public static void choosePlayer(Player playerOne, Player playerTwo, int ties, Scanner playerOneInput) throws IOException {
         Computer cpu = new Computer("CPU", 0);
 
         UI.choosePLayerText();
