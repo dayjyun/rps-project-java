@@ -80,8 +80,6 @@ public class Main {
             menu(playerOne, playerTwo, ties);
         } else if (menuChoice.equalsIgnoreCase("q") || menuChoice.equalsIgnoreCase("quit")) {
             quitGame(playerOne, playerTwo, ties, input);
-        } else if (menuChoice.equalsIgnoreCase("p") || menuChoice.equalsIgnoreCase("play")) {
-            playGame(playerOne, playerTwo, ties, input);
         } else {
             System.out.println("Invalid input");
             changePlayerName(playerOne, playerTwo, ties, input);

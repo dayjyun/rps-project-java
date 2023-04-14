@@ -28,7 +28,6 @@ public class UI {
                 + '\n' + "1. " + playerOne.getName()
                 + '\n' + "2. " + playerTwo.getName()
                 + '\n'
-                + '\n' + "Play (P)"
                 + '\n' + "Menu (M)"
                 + '\n' + "Quit (Q)"
                 + '\n');

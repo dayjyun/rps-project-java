@@ -35,7 +35,4 @@ public abstract class Player {
     public String toString() {
         return "Points=" + points + " Name";
     }
-//    public String toString() {
-//        return name + " " + points;
-//    }
 }
