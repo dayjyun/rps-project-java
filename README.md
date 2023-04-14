@@ -41,7 +41,8 @@ When the game is closed, the final results will be printed on the terminal.
 
 # Features
 
-Is it really a game if you can't play it? The Tic-Tac-Toe game offers a variety of features to make your experience more enjoyable
+The main driver of the game is using inheritance to pass information from method to method, which persists data throughout the game. The second
+important feature is using recursion for methods to call itself when an incorrect input is entered. This prevents the game from crashing without interrupting user experience.
 
 - Game
   - Play against another player
