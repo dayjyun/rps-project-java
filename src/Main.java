@@ -8,17 +8,38 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Main {
+    /**
+     * This is the first heavy driver of the game. This checks what the user would like to do once the user is in the menu. They can choose to start the game, view the game
+     * history from an external file, or simply exit the game.
+     * A feature that will be a common occurrence throughout the game is that most menu options can be selected with the starting letter for each word rather than typing out the
+     * entire word. This creates a faster experience of the user rather than requiring to type the entire word. The entire word is still optional but not necessary.
+     * @param playerOne The entire Player One object including name and points. This preserves Player One session state
+     * @param playerTwo The entire Player Two object including name and points. This preserves Player Two session state
+     * @param ties Integer value for the number of ties two players hold. This preserves ties session state
+     * @throws IOException Input/Output Exception if logic returns false
+     */
     public static void menu(Player playerOne, Player playerTwo, int ties) throws IOException {
         UI.menuText();
 
         Scanner playerOneInput = new Scanner(System.in);
-        String userInput = playerOneInput.nextLine();
+
+        /*
+        The trim method in the following code will remove any white space present. It provides a positive user experience since, by human nature, we may add a few spaces every
+        once in a while that may not require it. Prevents invisible user error.
+         */
+
+        String userInput = playerOneInput.nextLine().trim();
+
+        /*
+        Every time the equalsIgnoreCase method is implemented, it verifies that the word itself is written without worrying about typing the exact case lettering. Once again,
+        better for user experience.
+         */
 
         if (userInput.equalsIgnoreCase("play") || userInput.equalsIgnoreCase("p")) {
             GameAlgorithm.choosePlayer(playerOne, playerTwo, ties, playerOneInput);
         } else if (userInput.equalsIgnoreCase("history") || userInput.equalsIgnoreCase("h")) {
             try {
-                readFile("src/gameHistory.txt");
+                readFile(playerOne, playerTwo, ties);
             } catch (IOException e) {
                 System.out.println("Error while reading the file: " + e.getMessage());
             }
@@ -31,6 +52,14 @@ public class Main {
         }
     }
 
+    /**
+     * The changePlayerName updates the name for the specific player chosen. A player can update the name for Player One, Player Two, and even CPU!
+     * @param playerOne The entire Player One object including name and points. This preserves Player One session state
+     * @param playerTwo The entire Player Two object including name and points. This preserves Player Two session state
+     * @param ties Integer value for the number of ties two players hold. This preserves ties session state
+     * @param input Passed in from the first instance the System is called.
+     * @throws IOException Input/Output Exception if logic returns false
+     */
     public static void changePlayerName(Player playerOne, Player playerTwo, int ties, Scanner input) throws IOException {
         UI.changePlayerNameText(playerOne, playerTwo);
 
@@ -38,13 +67,13 @@ public class Main {
         if (menuChoice.equals("1")) {
             System.out.println('\n' + "Enter new name");
             String name = input.nextLine();
-            name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
+            name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase().trim();
             playerOne.setName(name);
             changePlayerName(playerOne, playerTwo, ties, input);
         } else if (menuChoice.equals("2")) {
             System.out.println('\n' + "Enter new name");
             String name = input.nextLine();
-            name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
+            name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase().trim();
             playerTwo.setName(name);
             changePlayerName(playerOne, playerTwo, ties, input);
         } else if (menuChoice.equalsIgnoreCase("m") || menuChoice.equalsIgnoreCase("menu")) {
@@ -59,22 +88,38 @@ public class Main {
         }
     }
 
-
+    /**
+     * This is that determines the game logic that we all know and love for the Rock Paper Scissors game.
+     * The method creates a new Scanner
+     * @param playerOne The entire Player One object including name and points. This preserves Player One session state
+     * @param playerTwo The entire Player Two object including name and points. This preserves Player Two session state
+     * @param ties Integer value for the number of ties two players hold. This preserves ties session state
+     * @param playerOneInput Passed in from the first instance the System is called.
+     * @throws IOException Input/Output Exception if logic returns false
+     */
     public static void playGame(Player playerOne, Player playerTwo, int ties, Scanner playerOneInput) throws IOException {
         String[] correctInput = {"r", "s", "p"};
         String[] correctInputLong = {"rock", "scissors", "paper"};
         Scanner playerTwoInput = new Scanner(System.in);
 
-        UI.playGameText(playerOne, playerTwo, ties);
 
-        String playerOneMove = playerOneInput.nextLine().toLowerCase();
+        UI.playGameText(playerOne, playerTwo, ties);
+        System.out.println(playerOne.getName() + "'s turn");
+
+        String playerOneMove = playerOneInput.nextLine().toLowerCase().trim();
         String playerTwoMove;
 
         if (playerTwo instanceof Computer) {
             playerTwoMove = ((Computer) playerTwo).computerMove();
+            System.out.println('\n' + playerTwo.getName() + "'s turn" + '\n');
         } else {
-            playerTwoMove = playerTwoInput.nextLine().toLowerCase();
+            System.out.println('\n' + playerTwo.getName() + "'s turn");
+            playerTwoMove = playerTwoInput.nextLine().toLowerCase().trim();
         }
+
+        /*
+            To make code more readable, I assigned boolean values to check
+         */
 
         boolean playerOneChoseRock = playerOneMove.equalsIgnoreCase("r") || playerOneMove.equalsIgnoreCase("rock");
         boolean playerOneChosePaper = playerOneMove.equalsIgnoreCase("p") || playerOneMove.equalsIgnoreCase("paper");
@@ -94,6 +139,11 @@ public class Main {
         boolean playerTwoEnteredValidKey = Arrays.asList(correctInput).contains(playerTwoMove) || Arrays.asList(correctInputLong).contains(playerTwoMove);
 
         if (playerChoseMenu) {
+            HashMap<Player, String> gameData = new HashMap<>();
+            gameData.put(playerOne, playerOne.getName());
+            gameData.put(playerTwo, playerTwo.getName());
+
+            writeFile(gameData, ties);
             menu(playerOne, playerTwo, ties);
         } else if (playerChoseQuit) {
             quitGame(playerOne, playerTwo, ties, playerOneInput);
@@ -152,17 +202,22 @@ public class Main {
                 ties++;
                 playGame(playerOne, playerTwo, ties, playerOneInput);
             }
-
         } else {
             System.out.println("Incorrect Input" + '\n');
             playGame(playerOne, playerTwo, ties, playerOneInput);
         }
-
     }
 
+    /**
+     * The quitGame game method is called a few times throughout the code. It will display the final results of the session and will send the data to our writeFile as a HashMap
+     * with its key-value pairs.
+     * @param playerOne The entire Player One object including name and points. This preserves Player One session state
+     * @param playerTwo The entire Player Two object including name and points. This preserves Player Two session state
+     * @param ties Integer value for the number of ties two players hold. This preserves ties session state
+     * @param input Passed in from the first instance the System is called. It can finally rest.
+     */
     public static void quitGame(Player playerOne, Player playerTwo, int ties, Scanner input) {
         UI.quitGameText(playerOne, playerTwo, ties);
-        // sends game data to a gameList
         HashMap<Player, String> gameData = new HashMap<>();
         gameData.put(playerOne, playerOne.getName());
         gameData.put(playerTwo, playerTwo.getName());
@@ -172,44 +227,58 @@ public class Main {
         input.close();
     }
 
+    /**
+     * This is where the game begins. It instantly creates our Players and passes them to the next method to preserve session state
+     * @param args
+     * @throws IOException Input/Output Exception if logic returns false
+     */
     public static void main(String[] args) throws IOException {
-
         HumanPlayer playerOne = new HumanPlayer("Player One", 0);
         HumanPlayer playerTwo = new HumanPlayer("Player Two", 0);
         int ties = 0;
 
         menu(playerOne, playerTwo, ties);
-
     }
 
-
-    // TODO ReadFile to read gameHistory.txt
-    // showHistory
-    public static void readFile(String fileName) throws IOException {
-        Path pathToFile = Paths.get(fileName);
+    /**
+     * The readFile method grabs the data allocated in the file destination and returns the data back to the user when requested. The data represent the information passed in
+     * through the writeFile method.
+     * @param playerOne The entire Player One object including name and points. This preserves Player One session state
+     * @param playerTwo The entire Player Two object including name and points. This preserves Player Two session state
+     * @param ties Integer value for the number of ties two players hold. This preserves ties session state
+     * @throws IOException Input/Output Exception if logic returns false
+     */
+    public static void readFile(Player playerOne, Player playerTwo, int ties) throws IOException {
+        Path pathToFile = Paths.get("src/gameHistory.txt");
         BufferedReader reader;
         try {
             reader = new BufferedReader(new FileReader(Paths.get(pathToFile.toUri()).toFile()));
             String currentLine = reader.readLine();
 
-            while (currentLine.length() > 5) {
-                HumanPlayer player = new HumanPlayer();
+            while (reader.ready()) {
+//                HumanPlayer player = new HumanPlayer();
+                // TODO Figure out how to loop through the ENTIRE gameHistory.txt return max 3 (latest)
                 String[] playerData = currentLine.split(" ");
                 System.out.println(Arrays.toString(playerData));
                     currentLine = reader.readLine();
-
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+         menu(playerOne, playerTwo, ties);
     }
 
+    /**
+     * writeFile accepts gameData loaded
+     * The method then will calculate the time it was called and submit the gameData together to the file as its destination.
+     * @param gameData is loaded with both Player One object and Player Two object, whether Player Two happens to be CPU or a live person, and wins, and accepts the ties
+     *      * value.
+     * @param ties Integer value for the number of ties two players hold. This preserves ties session state
+     */
     public static void writeFile(Object gameData, int ties) {
         LocalDateTime myDateObj = LocalDateTime.now();
         DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("MMM dd, yyyy HH:mm:ss");
         String formattedDate = myDateObj.format(myFormatObj);
-//        System.out.println(formattedDate);
-
 
         Path pathToFile = Paths.get("src/gameHistory.txt");
         try {

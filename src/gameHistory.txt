@@ -1,9 +1,56 @@
-04-13-2023 18:46:28
-{Name = 'Player One', Points = 1}=Player One, Name = 'CPU', Points = 3}=CPU}
+Apr 13, 2023 22:12:36
+{Points=1 Name=Player One, Points=0 Name=CPU}
+Ties: 0
+
+Apr 13, 2023 22:14:07
+{Points=2 Name=Kevin, Points=1 Name=CPU}
+Ties: 0
+
+Apr 13, 2023 22:14:33
+{Points=2 Name=Kevin, Points=2 Name=CPU}
 Ties: 3
 
+Apr 13, 2023 22:14:43
+{Points=3 Name=Kevin, Points=0 Name=Player Two}
+Ties: 4
 
-Apr 13, 2023 19:58:19
-{Player One 2=Player One, CPU 1=CPU}
+Apr 13, 2023 22:17:16
+{Points=3 Name=Kevin, Points=1 Name=CPU}
+Ties: 7
+
+Apr 13, 2023 22:17:22
+{Points=6 Name=Kevin, Points=1 Name=CPU}
+Ties: 9
+
+Apr 13, 2023 22:30:22
+{Points=0 Name=Player Two, Points=0 Name=Player One}
+Ties: 0
+
+Apr 13, 2023 22:31:48
+{Points=0 Name=Player Two, Points=0 Name=Player One}
 Ties: 1
+
+Apr 13, 2023 22:38:54
+{Points=0 Name=!@#$%^&*(), Points=0 Name=!@#$%^&*()}
+Ties: 1
+
+Apr 13, 2023 22:44:27
+{Points=0 Name=CPU, Points=0 Name=Player One}
+Ties: 0
+
+Apr 13, 2023 22:45:35
+{Points=0 Name=CPU, Points=0 Name=Player One}
+Ties: 0
+
+Apr 13, 2023 22:50:45
+{Points=2 Name=Player One, Points=0 Name=Player Two}
+Ties: 0
+
+Apr 13, 2023 23:00:06
+{Points=0 Name=Player Two, Points=0 Name=Player One}
+Ties: 0
+
+Apr 13, 2023 23:24:45
+{Points=0 Name=Player One, Points=1 Name=Player Two}
+Ties: 0
 

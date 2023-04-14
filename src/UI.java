@@ -52,7 +52,7 @@ public class UI {
                 "*** Results ***" + '\n' +
                 "Player One: " + playerOne.getPoints() + '\n' +
                 "Player Two: " + playerTwo.getPoints() + '\n' +
-                "Ties: " + ties + '\n' +
+                "Ties: " + ties + '\n' + '\n' +
                 "Goodbye :)"
         );
     }

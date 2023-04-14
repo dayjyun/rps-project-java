@@ -26,10 +26,10 @@ public abstract class Player {
     }
 
     @Override
-//    public String toString() {
-//        return "Points=" + points + " Name";
-//    }
     public String toString() {
-        return name + " " + points;
+        return "Points=" + points + " Name";
     }
+//    public String toString() {
+//        return name + " " + points;
+//    }
 }
