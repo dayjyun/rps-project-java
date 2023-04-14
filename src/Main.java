@@ -118,7 +118,8 @@ public class Main {
         }
 
         /*
-            To make code more readable, I assigned boolean values to check
+            To make code more readable, I assigned boolean values to handle the verification of what each player chooses. There are two checks for the same player simply since
+            we compare if the player typed the full word or the first letter of the desired word.
          */
 
         boolean playerOneChoseRock = playerOneMove.equalsIgnoreCase("r") || playerOneMove.equalsIgnoreCase("rock");
@@ -138,6 +139,12 @@ public class Main {
         boolean playerOneEnteredValidKey = Arrays.asList(correctInput).contains(playerOneMove) || Arrays.asList(correctInputLong).contains(playerOneMove);
         boolean playerTwoEnteredValidKey = Arrays.asList(correctInput).contains(playerTwoMove) || Arrays.asList(correctInputLong).contains(playerTwoMove);
 
+
+        /*
+            The writeFile is called whenever a user returns to the menu. When the user returns to the menu, it introduces the possibility for the player to leave the game
+            without ever recording the final results. Therefore, it acts as a data recorder and sends the information for the game to an external file that records the players
+            during that session, each of their points, and their ties.
+         */
         if (playerChoseMenu) {
             HashMap<Player, String> gameData = new HashMap<>();
             gameData.put(playerOne, playerOne.getName());
@@ -148,6 +155,9 @@ public class Main {
         } else if (playerChoseQuit) {
             quitGame(playerOne, playerTwo, ties, playerOneInput);
 
+            /*
+            Winning conditions. Depending on which player wins, their points will increment.
+             */
         } else if (playerOneEnteredValidKey && playerTwoEnteredValidKey) {
             if (playerOneChoseRock && playerTwoChoseScissors) {
                 System.out.println('\n' +
@@ -202,6 +212,11 @@ public class Main {
                 ties++;
                 playGame(playerOne, playerTwo, ties, playerOneInput);
             }
+            /*
+            This helps check that only allowable characters are inserted into the terminal. If a character that is not allowed to be used it inserted, the game notifies the user
+             that the key is not a correct value, and uses recursion to start the game again, passing in the playerOne and playerTwo objects, ties count, and Scanner input to
+             persist within the session. From a player's perspective, it only appears as if the game reset to its previous display.
+             */
         } else {
             System.out.println("Incorrect Input" + '\n');
             playGame(playerOne, playerTwo, ties, playerOneInput);
@@ -209,8 +224,9 @@ public class Main {
     }
 
     /**
-     * The quitGame game method is called a few times throughout the code. It will display the final results of the session and will send the data to our writeFile as a HashMap
-     * with its key-value pairs.
+     * The quitGame game method is called a handful amount of times throughout the code. It will display the final results of the session and will send the data to our writeFile
+     * as a HashMap with its key-value pairs. The writeFile method is called here mainly to capture the total values at the end of the game, rather than recording every single
+     * move made by each player and then storing the results.
      * @param playerOne The entire Player One object including name and points. This preserves Player One session state
      * @param playerTwo The entire Player Two object including name and points. This preserves Player Two session state
      * @param ties Integer value for the number of ties two players hold. This preserves ties session state
@@ -229,7 +245,7 @@ public class Main {
 
     /**
      * This is where the game begins. It instantly creates our Players and passes them to the next method to preserve session state
-     * @param args
+     * @param args The standard main method which requires an array of args
      * @throws IOException Input/Output Exception if logic returns false
      */
     public static void main(String[] args) throws IOException {
