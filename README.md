@@ -19,7 +19,7 @@ the game!
 
 - 100% Java
 
-To run, use an IDE of your choice that can execute the Java Virtual Environment (JVM). Once the terminal is running, Mmrk your selection by choosing between writing the entire 
+To run, use an IDE of your choice that can execute the Java Virtual Environment (JVM). Once the terminal is running, Mark your selection by choosing between writing the entire 
 word or the initial for each input.
 
 ## *Snapshots*
